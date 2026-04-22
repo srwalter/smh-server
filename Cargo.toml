@@ -1,0 +1,12 @@
+[package]
+name = "smh-server"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "File server for ARM semihosting over JTAG"
+repository = "https://github.com/srwalter/smh-server"
+
+[dependencies]
+clap = { version = "4.6.1", features = ["derive"] }
+jtag-adi = "0.4"
+jtag-taps = "0.6"
