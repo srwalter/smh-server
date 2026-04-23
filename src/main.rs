@@ -156,19 +156,8 @@ fn main() {
                      let mut buffer = vec![0u8; len];
                      match file.read(&mut buffer) {
                          Ok(n) => {
-                              let mut i = 0;
-                              while i + 8 <= n {
-                                  let mut chunk = [0u8; 8];
-                                  chunk.copy_from_slice(&buffer[i..i + 8]);
-                                  let val = u64::from_le_bytes(chunk);
-                                  v8.write_mem(buf_ptr + i as u64, val, DataSize::Double).expect("write double to mem");
-                                  i += 8;
-                              }
-                              while i < n {
-                                  v8.write_mem(buf_ptr + i as u64, buffer[i] as u64, DataSize::Byte).expect("write byte to mem");
-                                  i += 1;
-                              }
-                              v8.set_reg(0, (len - n) as u64).expect("set x0 to bytes read");
+                             v8.write_mem_block(buf_ptr, &buffer[0..n]).expect("write mem block");
+                             v8.set_reg(0, (len - n) as u64).expect("set x0 to bytes read");
                          }
                          Err(_) => {
                              v8.set_reg(0, -1i64 as u64).expect("set x0 to error");
