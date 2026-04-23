@@ -53,7 +53,7 @@ fn parse_int(x: &str) -> Result<u32, ParseIntError> {
 
 fn main() {
     let args = Args::parse();
-    let cable = Box::new(cable::mpsse::JtagKey::new(args.baud, true));
+    let cable = cable::new_from_string(&args.cable, args.baud).expect("cable");
     let jtag = JtagSM::new(cable);
     let mut taps = Taps::new(jtag);
 
